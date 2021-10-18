@@ -15,6 +15,6 @@ A proof of concept of Blockchain system using Proof-of-Work consensus algorithm
 - SHA-256: cryptographic hash
 
 # Packages
-- github.com/joho/godotenv: print structs and slices in a clean format
-- github.com/gorilla/mux: writing web handlers
+- github.com/joho/godotenv: pretty print structs and slices
+- github.com/gorilla/mux: write web handlers
 - github.com/joho/godotenv: read environment variables from a .env file
