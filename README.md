@@ -54,9 +54,23 @@ Response:
 ]
 ```
 
+## Networking
+- Start a TCP server at port 9000
+```
+go run *.go 
+```
+- Start a client to connect to the server using TCP
+```
+nc localhost 9000
+
+Output:
+Enter a new BPM: [enter a number]
+```
+
 ## Notes
 - mining bitcoin = solve a hard math problem
 - SHA-256: cryptographic hash
+- Netcat (or nc ) is a command-line utility that reads and writes data across network connections, using the TCP or UDP protocols
 
 ## Packages
 - github.com/joho/godotenv: pretty print structs and slices

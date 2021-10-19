@@ -18,6 +18,8 @@ type Block struct {
 
 var Blockchain []Block
 
+var bcServer chan []Block
+
 // create block
 func calculateHash(block Block) string {
 	record := strconv.Itoa(block.Index) + block.Timestamp + strconv.Itoa(block.BPM) + block.PrevHash
