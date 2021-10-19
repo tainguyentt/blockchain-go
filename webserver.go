@@ -19,14 +19,13 @@ type Message struct {
 
 func run() error {
 	mux := makeMuxRouter()
-	httpAddr := os.Getenv("ADDR")
+	httpAddr := os.Getenv("PORT")
 	log.Println("Listening on ", httpAddr)
-	tenSecs := 10 * time.Second
 	s := &http.Server{
 		Addr:           ":" + httpAddr,
 		Handler:        mux,
-		ReadTimeout:    tenSecs,
-		WriteTimeout:   tenSecs,
+		ReadTimeout:    10 * time.Second,
+		WriteTimeout:   10 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 	if err := s.ListenAndServe(); err != nil {
