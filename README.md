@@ -23,11 +23,13 @@ curl -X POST -d '{"BPM":10}' http://localhost:8080
 
 Response:
 {
-  "Index": 4,
-  "Timestamp": "2021-10-19 08:00:58.741514 +0700 +07 m=+743.922474724",
+  "Index": 2,
+  "Timestamp": "2021-10-19 22:47:16.877277 +0700 +07 m=+19.383792232",
   "BPM": 10,
-  "Hash": "ce27d4811945d5495521eba45e8d1958828d9be453918d37a78c0b477ebf236e",
-  "PrevHash": "a0475ea7b1ef6b5ab5c980c9299341525192babf5342c2eac729c2d25315c391"
+  "Hash": "0c4f602b3d2dec1918949fcccea78934f58761f5cbee4fd46ecf7985c50124f2",
+  "PrevHash": "0c4eb43a2ea0eda7529de470d2ba6bb0f30882700c1307dbf4600986c6befc9e",
+  "Difficulty": 1,
+  "Nonce": "f"
 }
 ```
 
@@ -39,17 +41,30 @@ Response:
 [
  {
   "Index": 0,
-  "Timestamp": "2021-10-19 07:42:00.967173 +0700 +07 m=+0.001552370",
+  "Timestamp": "2021-10-19 22:46:57.49489 +0700 +07 m=+0.001598502",
   "BPM": 0,
-  "Hash": "",
-  "PrevHash": ""
+  "Hash": "f1534392279bddbf9d43dde8701cb5be14b82f76ec6607bf8d6ad557f60f304e",
+  "PrevHash": "",
+  "Difficulty": 1,
+  "Nonce": ""
  },
  {
   "Index": 1,
-  "Timestamp": "2021-10-19 07:56:54.090725 +0700 +07 m=+499.274069703",
+  "Timestamp": "2021-10-19 22:47:01.342396 +0700 +07 m=+3.849066168",
   "BPM": 10,
-  "Hash": "71e7cdbf2f126b40f4a1777a8a824271a32607a406ca832a98ed775317ad481e",
-  "PrevHash": ""
+  "Hash": "0c4eb43a2ea0eda7529de470d2ba6bb0f30882700c1307dbf4600986c6befc9e",
+  "PrevHash": "f1534392279bddbf9d43dde8701cb5be14b82f76ec6607bf8d6ad557f60f304e",
+  "Difficulty": 1,
+  "Nonce": "2"
+ },
+ {
+  "Index": 2,
+  "Timestamp": "2021-10-19 22:47:16.877277 +0700 +07 m=+19.383792232",
+  "BPM": 10,
+  "Hash": "0c4f602b3d2dec1918949fcccea78934f58761f5cbee4fd46ecf7985c50124f2",
+  "PrevHash": "0c4eb43a2ea0eda7529de470d2ba6bb0f30882700c1307dbf4600986c6befc9e",
+  "Difficulty": 1,
+  "Nonce": "f"
  }
 ]
 ```
@@ -67,9 +82,12 @@ Output:
 Enter a new BPM: [enter a number]
 ```
 
+## Proof Of Work
+Solve a hard math problem: find the Nonce so that the hash of the next block has the number of leading Os equals to Difficulty
+
 ## Notes
 - mining bitcoin = solve a hard math problem
-- SHA-256: cryptographic hash
+- SHA-256: cryptographic hash, idempotency
 - Netcat (or nc ) is a command-line utility that reads and writes data across network connections, using the TCP or UDP protocols
 
 ## Packages

@@ -17,21 +17,20 @@ type Message struct {
 	BPM int
 }
 
-func run() error {
+func runWebserver() {
 	mux := makeMuxRouter()
 	httpAddr := os.Getenv("PORT")
 	log.Println("Listening on ", httpAddr)
 	s := &http.Server{
 		Addr:           ":" + httpAddr,
 		Handler:        mux,
-		ReadTimeout:    10 * time.Second,
-		WriteTimeout:   10 * time.Second,
+		ReadTimeout:    120 * time.Second,
+		WriteTimeout:   120 * time.Second,
 		MaxHeaderBytes: 1 << 20,
 	}
 	if err := s.ListenAndServe(); err != nil {
-		return err
+		log.Fatal(err)
 	}
-	return nil
 }
 
 // router
