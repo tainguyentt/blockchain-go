@@ -1,5 +1,5 @@
-# Proof-of-Work Blockchain
-A proof of concept of Blockchain system using Proof-of-Work consensus algorithm
+# Go Blockchain 
+A proof of concept of Blockchain system following the series of [MyCoralHealth](https://mycoralhealth.medium.com). This blockchain is meant for a healthcare company to store Pulse rate info of users.
 
 ## What we'll do
 - Create your own blockchain
