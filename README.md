@@ -85,6 +85,9 @@ Enter a new BPM: [enter a number]
 ## Proof Of Work
 Solve a hard math problem: find the Nonce so that the hash of the next block has the number of leading Os equals to Difficulty
 
+## Proof Of Stake
+Instead of nodes competing with each other to solve hashes, in Proof of Stake, blocks are “minted” or “forged” based on the amount of tokens each node is willing to put up as collateral. These nodes are called validators
+
 ## Notes
 - mining bitcoin = solve a hard math problem
 - SHA-256: cryptographic hash, idempotency

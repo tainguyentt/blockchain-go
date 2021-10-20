@@ -2,9 +2,9 @@ package main
 
 import (
 	"log"
-	"time"
+	"net"
+	"os"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/joho/godotenv"
 )
 
@@ -16,17 +16,40 @@ func main() {
 
 	bcChan = make(chan []Block)
 
-	//init blockchain with a genesis block
-	t := time.Now()
-	genesisBlock := Block{}
-	genesisBlock = Block{0, t.String(), 0, calculateHash(genesisBlock), "", difficulty, ""}
-	spew.Dump(genesisBlock)
+	var connHandler func(net.Conn)
+	consensusAlgo := os.Getenv("CONSENSUS_ALGO")
+	switch consensusAlgo {
+	case "PoW":
+		connHandler = handlePowConn
+		initPowGenesisBlock()
+		break
+	case "PoS":
+		connHandler = handlePosConn
+		initPosGenesisBlock()
 
-	mutex.Lock()
-	Blockchain = append(Blockchain, genesisBlock)
-	mutex.Unlock()
+		//start a goroutine to add incoming blocks
+		go func() {
+			for candidate := range candidateBlocks {
+				mutex.Lock()
+				tempPosBlocks = append(tempPosBlocks, candidate)
+				mutex.Unlock()
+			}
+		}()
 
-	runWebserver()
+		//start a goroutine to pick a winner and mint a new block
+		go func() {
+			for {
+				pickWinner()
+			}
+		}()
+		break
+	default:
+		log.Fatal("undefined consensus algorithm")
+	}
 
-	// runTcpServer()
+	//start webserver
+	go runWebserver()
+
+	// start tcp socket
+	runTcpServer(connHandler)
 }
