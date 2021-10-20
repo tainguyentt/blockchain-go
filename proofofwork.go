@@ -3,6 +3,7 @@ package main
 import (
 	"bufio"
 	"encoding/json"
+	"errors"
 	"fmt"
 	"io"
 	"log"
@@ -46,7 +47,7 @@ func isHashValid(hash string, difficulty int) bool {
 	return strings.HasPrefix(hash, prefix)
 }
 
-// mine a new block using PoW
+// create a new block using PoW
 func generateBlock(oldBlock Block, BPM int) (Block, error) {
 	var newBlock Block
 	t := time.Now()
@@ -72,6 +73,24 @@ func generateBlock(oldBlock Block, BPM int) (Block, error) {
 	}
 
 	return newBlock, nil
+}
+
+// create, validate and add new block to Blockchain
+func mineNewPoWBlock(BPM int) (Block, error) {
+	lastBlock := Blockchain[len(Blockchain)-1]
+	newBlock, err := generateBlock(lastBlock, BPM)
+	if err != nil {
+		return Block{}, err
+	}
+
+	if isBlockValid(newBlock, lastBlock) {
+		newBlockchain := append(Blockchain, newBlock)
+		replaceChain(newBlockchain)
+		spew.Dump(Blockchain)
+		return newBlock, nil
+	}
+
+	return Block{}, errors.New("Error creating new block")
 }
 
 func initPowGenesisBlock() {

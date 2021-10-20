@@ -8,7 +8,6 @@ import (
 	"os"
 	"time"
 
-	"github.com/davecgh/go-spew/spew"
 	"github.com/gorilla/mux"
 )
 
@@ -43,11 +42,19 @@ func makeMuxRouter() http.Handler {
 
 // handlers
 func handleGetBlockChain(w http.ResponseWriter, r *http.Request) {
-	bytes, err := json.MarshalIndent(Blockchain, "", " ") //todo
+	consensus := os.Getenv("CONSENSUS_ALGO")
+	var blockchain interface{}
+	if consensus == "PoW" {
+		blockchain = Blockchain
+	} else {
+		blockchain = PosBlockchain
+	}
+
+	bytes, err := json.MarshalIndent(blockchain, "", " ")
 	if err != nil {
 		http.Error(w, err.Error(), http.StatusInternalServerError)
 	}
-	io.WriteString(w, string(bytes)) //todo
+	io.WriteString(w, string(bytes))
 }
 
 func handleWriteBlock(w http.ResponseWriter, r *http.Request) {
@@ -60,19 +67,15 @@ func handleWriteBlock(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	lastBlock := Blockchain[len(Blockchain)-1]
-	newBlock, err := generateBlock(lastBlock, m.BPM)
+	consensus := os.Getenv("CONSENSUS_ALGO")
+	if consensus == "PoS" {
+		log.Fatal("PoS consensus is not supported for creating new block via PoS")
+	}
+	newBlock, err := mineNewPoWBlock(m.BPM)
 	if err != nil {
 		respondWithJson(w, r, http.StatusInternalServerError, r.Body)
 		return
 	}
-
-	if isBlockValid(newBlock, lastBlock) {
-		newBlockchain := append(Blockchain, newBlock)
-		replaceChain(newBlockchain)
-		spew.Dump(Blockchain)
-	}
-
 	respondWithJson(w, r, http.StatusCreated, newBlock)
 }
 
